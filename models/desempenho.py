@@ -1,21 +1,19 @@
 # Schemas Pydantic para o domínio de desempenho esportivo.
 
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class TemporadaDesempenho(BaseModel):
-    #Desempenho esportivo do clube em uma temporada.
+
+    # Desempenho esportivo da temporada, campos de competição variam por clube/ano
+
+    model_config = ConfigDict(extra="allow")
 
     ano: int
 
-    class Config:
-        extra = "allow"  # campos de competições variam por clube/ano
-
 
 class DesempenhoResponse(BaseModel):
-   # Resposta da rota.
-
     clube: str
     total: int
     anos: list[int]
