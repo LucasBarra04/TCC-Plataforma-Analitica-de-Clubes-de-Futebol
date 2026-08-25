@@ -1,58 +1,44 @@
-# Dependências FastAPI para validar parâmetros comuns entre a rotas.
+# Dependências FastAPI para validar parâmetros comuns entre as rotas.
 
 from typing import Optional
 
 from fastapi import HTTPException, Path, Query
 
-from config import (
-    ANO_MAX,
-    ANO_MIN,
-    CLUBES_VALIDOS,
-    DIRECOES_VALIDAS,
-    TIPOS_TRANSFERENCIA_VALIDOS,
-)
+from config import anoMax, anoMin, clubesValidos, direcoesValidas, tiposTransferenciaValidos
 
-def clube_path(
-    clube: str = Path(..., description="Clube: flamengo ou palmeiras")
-) -> str:
-    clube_norm = clube.lower().strip()
-    if clube_norm not in CLUBES_VALIDOS:
-        raise HTTPException(
-            status_code=400,
-            detail=f'Clube "{clube}" inválido. Use: {" | ".join(CLUBES_VALIDOS)}',
-        )
-    return clube_norm
 
-def ano_query(
-    ano: Optional[int] = Query(
-        None, description=f"Ano específico ({ANO_MIN}-{ANO_MAX})"
-    )
-) -> Optional[int]:
-    if ano is not None and not (ANO_MIN <= ano <= ANO_MAX):
-        raise HTTPException(
-            status_code=404,
-            detail=f"Ano {ano} fora do recorte {ANO_MIN}-{ANO_MAX}.",
-        )
+def clubePath(clube: str = Path(..., description="Clube: " + " | ".join(clubesValidos))) -> str:
+    clubeNorm = clube.lower().strip()
+    if clubeNorm not in clubesValidos:
+        raise HTTPException(status_code=400, detail=f'Clube "{clube}" inválido. Use: {" | ".join(clubesValidos)}')
+    return clubeNorm
+
+
+def clubesQuery(
+    clubes: Optional[str] = Query(None, description="Lista de clubes separados por vírgula, ex: flamengo,internacional. Padrão: todos.")
+) -> Optional[list[str]]:
+    if clubes is None:
+        return None
+    lista = [c.lower().strip() for c in clubes.split(",") if c.strip()]
+    invalidos = [c for c in lista if c not in clubesValidos]
+    if invalidos:
+        raise HTTPException(status_code=400, detail=f'Clube(s) inválido(s): {", ".join(invalidos)}. Use: {" | ".join(clubesValidos)}')
+    return lista
+
+
+def anoQuery(ano: Optional[int] = Query(None, description=f"Ano específico ({anoMin}-{anoMax})")) -> Optional[int]:
+    if ano is not None and not (anoMin <= ano <= anoMax):
+        raise HTTPException(status_code=404, detail=f"Ano {ano} fora do recorte {anoMin}-{anoMax}.")
     return ano
 
-def direcao_query(
-    direcao: Optional[str] = Query(
-        None, description='Direção: "saidas" ou "entradas"'
-    )
-) -> Optional[str]:
-    if direcao is not None and direcao.lower() not in DIRECOES_VALIDAS:
-        raise HTTPException(
-            status_code=400,
-            detail=f'Parâmetro "direcao" deve ser um de: {" | ".join(DIRECOES_VALIDAS)}',
-        )
+
+def direcaoQuery(direcao: Optional[str] = Query(None, description='Direção: "saidas" ou "entradas"')) -> Optional[str]:
+    if direcao is not None and direcao.lower() not in direcoesValidas:
+        raise HTTPException(status_code=400, detail=f'Parâmetro "direcao" deve ser um de: {" | ".join(direcoesValidas)}')
     return direcao.lower() if direcao else None
 
-def tipo_transferencia_query(
-    tipo: Optional[str] = Query(None, description="Tipo de movimentação")
-) -> Optional[str]:
-    if tipo is not None and tipo.lower() not in TIPOS_TRANSFERENCIA_VALIDOS:
-        raise HTTPException(
-            status_code=400,
-            detail=f'Parâmetro "tipo" deve ser um de: {" | ".join(TIPOS_TRANSFERENCIA_VALIDOS)}',
-        )
+
+def tipoTransferenciaQuery(tipo: Optional[str] = Query(None, description="Tipo de movimentação")) -> Optional[str]:
+    if tipo is not None and tipo.lower() not in tiposTransferenciaValidos:
+        raise HTTPException(status_code=400, detail=f'Parâmetro "tipo" deve ser um de: {" | ".join(tiposTransferenciaValidos)}')
     return tipo.lower() if tipo else None

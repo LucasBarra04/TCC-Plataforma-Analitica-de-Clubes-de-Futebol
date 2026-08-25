@@ -4,15 +4,19 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends
 
-from routers.deps import ano_query, clube_path
-from services import sheets_client
+from routers.deps import anoQuery, clubePath
+from services import pontuacaoFederacoes, sheetsClient
 
 router = APIRouter(prefix="/desempenho", tags=["Desempenho Esportivo"])
 
 
 @router.get("/{clube}")
-def get_desempenho(
-    clube: str = Depends(clube_path),
-    ano: Optional[int] = Depends(ano_query),
-):
-    return sheets_client.desempenho(clube, ano)
+def getDesempenho(clube: str = Depends(clubePath), ano: Optional[int] = Depends(anoQuery)):
+    return sheetsClient.desempenho(clube, ano)
+
+
+@router.get("/{clube}/pontuacao")
+def getPontuacaoFederacoes(clube: str = Depends(clubePath)):
+    dados = sheetsClient.desempenho(clube)
+    temporadas = dados.get("dados", [])
+    return pontuacaoFederacoes.pontuacaoCompleta(clube, temporadas)
