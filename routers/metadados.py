@@ -1,30 +1,23 @@
-# Rotas de metadados: health check, clubes e anos do recorte.
+# Rotas de metadados: health, clubes e anos do recorte.
 
 from fastapi import APIRouter
 
-from services import sheets_client
+from services import sheetsClient
 
 router = APIRouter(tags=["Metadados"])
 
 
 @router.get("/health")
-def get_health():
-    # Confere se o backend e a API estão operando.
-    dados_sheets = sheets_client.health()
-    return {
-        "status": "ok",
-        "backend": "fastapi",
-        "sheets_api": dados_sheets,
-    }
+def getHealth():
+    dadosSheets = sheetsClient.health()
+    return {"status": "ok", "backend": "fastapi", "sheetsApi": dadosSheets}
 
 
 @router.get("/clubes")
-def get_clubes():
-    # Lista os clubes disponíveis.
-    return sheets_client.clubes()
+def getClubes():
+    return sheetsClient.clubes()
 
 
 @router.get("/anos")
-def get_anos():
-    # Lista os anos do recorte temporal.
-    return sheets_client.anos()
+def getAnos():
+    return sheetsClient.anos()
