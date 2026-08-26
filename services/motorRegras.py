@@ -181,6 +181,62 @@ def avaliarConcentracaoReceita(clube: str, ano: Optional[int] = None) -> CardDia
 
 
 # 5. Eficiência esportiva
+
+def _avaliarEficienciaEsportivaFederacao(clube: str, ano: Optional[int], federacao: str) -> CardDiagnostico:
+    indicador = f"eficienciaEsportiva{federacao.capitalize()}"
+    limiares = limiaresEficienciaEsportiva
+
+    dadosDesempenho = sheetsClient.desempenho(clube)
+    temporadas = dadosDesempenho.get("dados", [])
+    if not temporadas:
+        return _card(indicador, None, "indisponivel", "Sem dados de desempenho esportivo disponíveis.")
+
+    serieFn = pontuacaoFederacoes.serieHistoricaCbf if federacao == "cbf" else pontuacaoFederacoes.serieHistoricaConmebol
+    serieFederacao = serieFn(temporadas)
+
+    scores = {a: v["bruta"] for a, v in serieFederacao["serie"].items() if v["bruta"] is not None}
+    if not scores:
+        return _card(indicador, None, "indisponivel", f"Sem pontuação {federacao.upper()} disponível no recorte oficial.")
+
+    mediaHistorica = sum(scores.values()) / len(scores)
+    anoRef = ano or max(scores.keys())
+    scoreAno = scores.get(anoRef)
+
+    if scoreAno is None or mediaHistorica == 0:
+        return _card(indicador, None, "indisponivel", f"Score {federacao.upper()} indisponível para o ano {anoRef}.")
+
+    desvio = round((scoreAno - mediaHistorica) / mediaHistorica, 4)
+    nomeFederacao = federacao.upper()
+
+    if desvio >= 0:
+        status, texto = "saudavel", (
+            f"Score {nomeFederacao} de {anoRef} ({scoreAno} pts) está {desvio*100:.1f}% acima "
+            f"da média histórica do clube ({mediaHistorica:.1f} pts)."
+        )
+    elif desvio >= limiares["atencaoDesvioMax"]:
+        status, texto = "atencao", (
+            f"Score {nomeFederacao} de {anoRef} ({scoreAno} pts) está {abs(desvio)*100:.1f}% abaixo "
+            f"da média histórica do clube ({mediaHistorica:.1f} pts), dentro da faixa de atenção (até 20%)."
+        )
+    else:
+        status, texto = "critico", (
+            f"Score {nomeFederacao} de {anoRef} ({scoreAno} pts) está {abs(desvio)*100:.1f}% abaixo "
+            f"da média histórica do clube ({mediaHistorica:.1f} pts), acima do limiar crítico de 20%."
+        )
+
+    return _card(indicador, float(scoreAno), status, texto, formato="numero")
+
+
+def avaliarEficienciaEsportivaCbf(clube: str, ano: Optional[int] = None) -> CardDiagnostico:
+    return _avaliarEficienciaEsportivaFederacao(clube, ano, "cbf")
+
+
+def avaliarEficienciaEsportivaConmebol(clube: str, ano: Optional[int] = None) -> CardDiagnostico:
+    return _avaliarEficienciaEsportivaFederacao(clube, ano, "conmebol")
+
+
+# Agregador
+
 def gerarDiagnostico(clube: str, ano: Optional[int] = None) -> list[CardDiagnostico]:
     # Executa os 6 avaliadores do motor de regras para um clube.
     return [
@@ -188,4 +244,6 @@ def gerarDiagnostico(clube: str, ano: Optional[int] = None) -> list[CardDiagnost
         avaliarEndividamento(clube, ano=ano),
         avaliarCustoFutebol(clube, ano=ano),
         avaliarConcentracaoReceita(clube, ano=ano),
+        avaliarEficienciaEsportivaCbf(clube, ano=ano),
+        avaliarEficienciaEsportivaConmebol(clube, ano=ano),
     ]
