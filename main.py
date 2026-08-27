@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 
 from config import CORS_ORIGINS
 from routers import desempenho, diagnostico, financeiro, metadados, projecoes, transferencias
-from services.sheets_client import SheetsAPIError
+from services.sheetsClient import SheetsAPIError
 
 app = FastAPI(
     title="Plataforma Analítica de Clubes de Futebol - API",
