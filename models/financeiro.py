@@ -46,6 +46,7 @@ class ValorPontual(BaseModel):
 class LinhaFinanceira(BaseModel):
     slug: str
     label: str
+    nivel: int = 0
     unidade: str
     valores: dict[int, Optional[float]]
     obs: Optional[str] = None
