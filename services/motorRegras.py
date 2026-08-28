@@ -22,6 +22,14 @@ def _normalizar(texto: str) -> str:
     return semAcento.lower()
 
 
+def _termoNoLabel(termo: str, labelNorm: str) -> bool:
+    if termo in labelNorm:
+        return True
+    if termo.endswith("al") and (termo[:-2] + "ais") in labelNorm:
+        return True
+    return False
+
+
 def _card(indicador: str, valor: Optional[float], status: str, texto: str, formato: str = "percentual") -> CardDiagnostico:
     if valor is None:
         valorFormatado = "N/D"
@@ -99,15 +107,19 @@ def _buscarLinhaDre(clube: str, *palavrasChave: str) -> Optional[dict]:
     dre = dados.get("dados", {}).get("dre", [])
     for linha in dre:
         labelNorm = _normalizar(linha["label"])
-        if all(_normalizar(p) in labelNorm for p in palavrasChave):
+        if all(_termoNoLabel(_normalizar(p), labelNorm) for p in palavrasChave):
             return linha
     return None
+
+
+def buscarLinhaDespesaOperacional(clube: str) -> Optional[dict]:
+    return _buscarLinhaDre(clube, "despesa", "operacional") or _buscarLinhaDre(clube, "custo", "operacional")
 
 
 def avaliarCustoFutebol(clube: str, ano: Optional[int] = None) -> CardDiagnostico:
     limiares = limiaresMotorRegras["custoFutebol"]
 
-    linhaDespesas = _buscarLinhaDre(clube, "despesa", "operacional")
+    linhaDespesas = buscarLinhaDespesaOperacional(clube)
     if linhaDespesas is None:
         return _card("custoFutebol", None, "indisponivel", "Linha de Despesas Operacionais não identificada na DRE do clube.")
 
@@ -138,7 +150,17 @@ def avaliarCustoFutebol(clube: str, ano: Optional[int] = None) -> CardDiagnostic
 
 # 4. Concentração de receita
 
-_termosTotalizadores = ("receita bruta", "receita operacional liquida", "receita liquida", "total")
+def extrairFontesReceita(dre: list[dict]) -> list[dict]:
+    fontes = []
+    dentroDoBloco = False
+    for linha in dre:
+        nivel = linha.get("nivel", 0)
+        if nivel == 0:
+            dentroDoBloco = "receita" in _normalizar(linha["label"])
+            continue
+        if dentroDoBloco and nivel == 1:
+            fontes.append(linha)
+    return fontes
 
 
 def avaliarConcentracaoReceita(clube: str, ano: Optional[int] = None) -> CardDiagnostico:
@@ -146,14 +168,10 @@ def avaliarConcentracaoReceita(clube: str, ano: Optional[int] = None) -> CardDia
 
     dados = sheetsClient.financeiro(clube)
     dre = dados.get("dados", {}).get("dre", [])
-
-    fontes = [
-        linha for linha in dre
-        if "receita" in _normalizar(linha["label"]) and not any(t in _normalizar(linha["label"]) for t in _termosTotalizadores)
-    ]
+    fontes = extrairFontesReceita(dre)
 
     if len(fontes) < 2:
-        return _card("concentracaoReceita", None, "indisponivel", "A DRE não decompõe a receita em fontes suficientes para calcular a concentração.")
+        return _card("concentracaoReceita", None, "indisponivel", "A DRE não decompõe a receita em fontes suficientes (nível de sub-item) para calcular a concentração.")
 
     def valorNoAno(linha: dict, anoRef: int) -> Optional[float]:
         return linha["valores"].get(str(anoRef), linha["valores"].get(anoRef))
