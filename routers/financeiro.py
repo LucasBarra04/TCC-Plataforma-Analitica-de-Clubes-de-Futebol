@@ -4,44 +4,37 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from config import INDICADORES_COMPARAVEIS
-from routers.deps import ano_query, clube_path
-from services import sheets_client
+from config import indicadoresComparaveis
+from routers.deps import anoQuery, clubePath, clubesQuery
+from services import sheetsClient
 
 router = APIRouter(tags=["Financeiro"])
 
+
 @router.get("/indicadores/{clube}")
-def get_indicadores(clube: str = Depends(clube_path)):
-    # Lista todos os indicadores financeiros disponíveis para um clube.
-    return sheets_client.indicadores(clube)
+def getIndicadores(clube: str = Depends(clubePath)):
+    return sheetsClient.indicadores(clube)
 
 
 @router.get("/financeiro/{clube}")
-def get_financeiro(
-    clube: str = Depends(clube_path),
-    ano: Optional[int] = Depends(ano_query),
-    indicador: Optional[str] = Query(
-        None, description="Slug do indicador (ver /indicadores/{clube})"
-    ),
+def getFinanceiro(
+    clube: str = Depends(clubePath),
+    ano: Optional[int] = Depends(anoQuery),
+    indicador: Optional[str] = Query(None, description="Slug do indicador (ver /indicadores/{clube})"),
 ):
-
-    # Retorna dados financeiros de um clube.
-    
-    return sheets_client.financeiro(clube, ano, indicador)
+    return sheetsClient.financeiro(clube, ano, indicador)
 
 
 @router.get("/comparativo")
-def get_comparativo(
+def getComparativo(
     indicador: str = Query(..., description="Alias comparável, ex: receita_bruta"),
-    ano: Optional[int] = Depends(ano_query),
+    ano: Optional[int] = Depends(anoQuery),
+    clubes: Optional[list[str]] = Depends(clubesQuery),
 ):
-    # Retorna um indicador financeiro comparável entre dois clubes.
-    if indicador not in INDICADORES_COMPARAVEIS:
+    # Indicador financeiro comparável entre os clubes selecionados
+    if indicador not in indicadoresComparaveis:
         raise HTTPException(
             status_code=400,
-            detail=(
-                f'Indicador "{indicador}" não está na lista de comparáveis. '
-                f'Indicadores comparáveis: {", ".join(INDICADORES_COMPARAVEIS)}'
-            ),
+            detail=f'Indicador "{indicador}" não está na lista de comparáveis. Indicadores comparáveis: {", ".join(indicadoresComparaveis)}',
         )
-    return sheets_client.comparativo(indicador, ano)
+    return sheetsClient.comparativo(indicador, ano, clubesFiltro=clubes)

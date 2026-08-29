@@ -1,42 +1,27 @@
-
-# Configurações globais da aplicação.
+# Configurações globais.
 
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# API externa
+sheetsApiUrl: str = os.getenv("SHEETS_API_URL")
+sheetsApiTimeout: float = float(os.getenv("SHEETS_API_TIMEOUT", "15"))
+sheetsApiMaxRetries: int = int(os.getenv("SHEETS_API_MAX_RETRIES", "3"))
 
-SHEETS_API_URL: str = os.getenv(
-    "SHEETS_API_URL",
-)
+clubesValidos: list[str] = ["flamengo", "palmeiras", "internacional", "sao_paulo"]
 
-# Timeout
-SHEETS_API_TIMEOUT: float = float(os.getenv("SHEETS_API_TIMEOUT", "15"))
+anosRecorte: list[int] = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+anoMin: int = min(anosRecorte)
+anoMax: int = max(anosRecorte)
 
-# Número de tentativas
-SHEETS_API_MAX_RETRIES: int = int(os.getenv("SHEETS_API_MAX_RETRIES", "3"))
+direcoesValidas: list[str] = ["saidas", "entradas"]
 
-
-CLUBES_VALIDOS: list[str] = ["flamengo", "palmeiras"]
-
-ANOS_RECORTE: list[int] = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
-
-ANO_MIN: int = min(ANOS_RECORTE)
-ANO_MAX: int = max(ANOS_RECORTE)
-
-DIRECOES_VALIDAS: list[str] = ["saidas", "entradas"]
-
-TIPOS_TRANSFERENCIA_VALIDOS: list[str] = [
-    "transferencia",
-    "emprestimo",
-    "custo_zero",
-    "fim_emprestimo",
+tiposTransferenciaValidos: list[str] = [
+    "transferencia", "emprestimo", "custo_zero", "fim_emprestimo",
 ]
 
-# Indicadores comparáveis entre clubes 
-INDICADORES_COMPARAVEIS: list[str] = [
+indicadoresComparaveis: list[str] = [
     "receita_bruta",
     "receita_operacional_liquida",
     "superavit_deficit",
@@ -45,43 +30,40 @@ INDICADORES_COMPARAVEIS: list[str] = [
     "passivo_total",
 ]
 
-# Motor de regras: limiares dos 5 indicadores
-# Cada indicador possui limites que definem as faixas saudável / atenção / crítico.
-
-LIMIARES_MOTOR_REGRAS: dict = {
-    "crescimento_receita": {
+limiaresMotorRegras: dict = {
+    "crescimentoReceita": {
         "direcao": "maior_melhor",
-        "saudavel_min": 0.08,       # > 8% a.a.
-        "atencao_min": 0.04,        # 4% - 8%
+        "saudavelMin": 0.08,    
+        "atencaoMin": 0.04,      
         "unidade": "percentual",
     },
     "endividamento": {
         "direcao": "menor_melhor",
-        "saudavel_max": 1.5,        # < 1,5x
-        "atencao_max": 2.5,         # 1,5x - 2,5x
+        "saudavelMax": 1.5,      
+        "atencaoMax": 2.5,       
         "unidade": "multiplo",
     },
-    "custo_futebol": {
+    "custoFutebol": {
         "direcao": "menor_melhor",
-        "saudavel_max": 0.55,       # < 55%
-        "atencao_max": 0.70,        # 55% - 70%
+        "saudavelMax": 0.55,     
+        "atencaoMax": 0.70,      
         "unidade": "percentual",
     },
-    "concentracao_receita": {
+    "concentracaoReceita": {
         "direcao": "menor_melhor",
-        "saudavel_max": 0.40,       # < 40%
-        "atencao_max": 0.60,        # 40% - 60%
+        "saudavelMax": 0.40,     
+        "atencaoMax": 0.60,     
         "unidade": "percentual",
-    },
-    "eficiencia_esportiva": {
-        "direcao": "maior_melhor",  # score acima da média é melhor
-        "atencao_desvio_max": -0.20,   # até 20% abaixo da média = atenção
-        "critico_desvio_max": -0.50,   # acima de 20% abaixo (i.e. <= -20%) já é atenção;
-        # > 50% abaixo da média = crítico
-        "unidade": "percentual_desvio",
     },
 }
 
-CORS_ORIGINS: list[str] = os.getenv(
+limiaresEficienciaEsportiva: dict = {
+    "direcao": "maior_melhor",
+    "atencaoDesvioMax": -0.20,
+    "criticoDesvioMax": -0.50,
+    "unidade": "percentual_desvio",
+}
+
+corsOrigins: list[str] = os.getenv(
     "CORS_ORIGINS", "http://localhost:5173,http://localhost:3000"
 ).split(",")
