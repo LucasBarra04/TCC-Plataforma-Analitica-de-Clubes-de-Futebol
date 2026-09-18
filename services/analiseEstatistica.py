@@ -172,7 +172,7 @@ def calcularCorrelacao(variavelX: str, variavelY: str, clubes: Optional[list[str
         return ResultadoCorrelacao(
             variavelX=variavelX, variavelY=variavelY, n=n,
             pearsonR=None, pearsonP=None, spearmanR=None, spearmanP=None, forcaAssociacao=None,
-            painel=painel, nota=f"Apenas {n} observações pareadas — insuficiente para calcular correlação (mínimo 4).",
+            painel=painel, nota=f"Apenas {n} observações pareadas, insuficiente para calcular correlação (mínimo 4).",
         )
 
     xs = [p.x for p in painel]

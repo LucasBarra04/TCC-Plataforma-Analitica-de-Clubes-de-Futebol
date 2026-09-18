@@ -1,0 +1,164 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/*Barra superior*/
+
+.app-shell__topbar {
+  background: var(--pitch-950);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 28px;
+}
+
+.app-shell__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-shell__brand-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.app-shell__brand-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--paper);
+}
+
+.app-shell__clubes {
+  display: flex;
+  gap: 6px;
+}
+
+.clube-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--paper-dim);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.clube-badge:hover {
+  opacity: 0.85;
+  background: rgba(246, 243, 236, 0.06);
+}
+
+.clube-badge--ativo {
+  opacity: 1;
+  color: var(--gold-soft);
+  background: rgba(201, 162, 75, 0.14);
+}
+
+.clube-badge__sigla {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+/*Régua do recorte*/
+
+.app-shell__ledger-rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 28px;
+  background: var(--paper-dim);
+  border-bottom: 1px solid rgba(11, 43, 31, 0.1);
+}
+
+.app-shell__ledger-year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+.app-shell__ledger-line {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--pitch-700) 0,
+    var(--pitch-700) 4px,
+    transparent 4px,
+    transparent 9px
+  );
+}
+
+/*Abas de seção*/
+
+.app-shell__tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(11, 43, 31, 0.1);
+  background: var(--paper);
+}
+
+.app-shell__tab {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 12px 14px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.app-shell__tab:hover {
+  color: var(--ink);
+}
+
+.app-shell__tab.active {
+  color: var(--pitch-700);
+  border-bottom-color: var(--pitch-700);
+}
+
+/*Conteúdo*/
+
+.app-shell__content {
+  flex: 1;
+  padding: 28px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-shell__footer {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  text-align: center;
+  padding: 16px;
+  border-top: 1px solid rgba(11, 43, 31, 0.08);
+}
+
+@media (max-width: 640px) {
+  .app-shell__topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .app-shell__content {
+    padding: 18px;
+  }
+}
