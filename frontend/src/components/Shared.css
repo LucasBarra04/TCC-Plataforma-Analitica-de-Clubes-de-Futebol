@@ -1,0 +1,60 @@
+.estado {
+  padding: 32px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+}
+
+.estado--carregando {
+  color: var(--text-secondary);
+}
+
+.estado--erro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--status-critico-bg);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: var(--text-primary);
+}
+
+.estado--erro strong {
+  color: var(--status-critico);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+}
+
+.status-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+
+.status-badge--saudavel {
+  color: var(--status-saudavel);
+  background: var(--status-saudavel-bg);
+}
+
+.status-badge--atencao {
+  color: var(--status-atencao);
+  background: var(--status-atencao-bg);
+}
+
+.status-badge--critico {
+  color: var(--status-critico);
+  background: var(--status-critico-bg);
+}
+
+.status-badge--indisponivel {
+  color: var(--status-indisponivel);
+  background: var(--status-indisponivel-bg);
+}

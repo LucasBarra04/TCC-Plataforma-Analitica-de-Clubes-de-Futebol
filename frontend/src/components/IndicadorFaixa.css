@@ -1,0 +1,19 @@
+.indicador-faixa {
+  margin-top: 4px;
+}
+
+.indicador-faixa__trilho {
+  position: relative;
+  height: 3px;
+  opacity: 0.5;
+}
+
+.indicador-faixa__marcador {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--text-primary);
+  border: 1.5px solid var(--bg-app);
+  transform: translate(-50%, -50%);
+}
