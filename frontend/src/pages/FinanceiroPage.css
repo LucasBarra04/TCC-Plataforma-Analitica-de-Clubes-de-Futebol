@@ -1,0 +1,68 @@
+.tabela-secao {
+  border-top: var(--divisor);
+  padding-top: 16px;
+  margin-bottom: 30px;
+}
+
+.tabela-secao h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.tabela-secao__scroll {
+  overflow-x: auto;
+}
+
+.tabela-financeira {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 640px;
+}
+
+.tabela-financeira th,
+.tabela-financeira td {
+  padding: 11px 12px;
+  text-align: right;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tabela-financeira thead th {
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: 14px;
+}
+
+.tabela-financeira tbody tr {
+  border-top: 0.5px solid rgba(168, 168, 168, 0.1);
+}
+
+.tabela-financeira__rotulo-col {
+  text-align: left;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: sticky;
+  left: 0;
+  background: var(--bg-app);
+  min-width: 220px;
+}
+
+.tabela-financeira__sub-item .tabela-financeira__rotulo-col {
+  padding-left: 24px;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.financeiro-page__nota {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
