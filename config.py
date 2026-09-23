@@ -58,13 +58,6 @@ limiaresMotorRegras: dict = {
     },
 }
 
-limiaresEficienciaEsportiva: dict = {
-    "direcao": "maior_melhor",
-    "atencaoDesvioMax": -0.20,
-    "criticoDesvioMax": -0.50,
-    "unidade": "percentual_desvio",
-}
-
 corsOrigins: list[str] = os.getenv(
     "CORS_ORIGINS", "http://localhost:5173,http://localhost:3000"
 ).split(",")

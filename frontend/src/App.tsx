@@ -3,6 +3,7 @@ import { Layout } from "./components/Layout";
 import { ClubeAtivoProvider } from "./lib/clubeContext";
 import { DashboardPage } from "./pages/DashboardPage";
 import { FinanceiroPage } from "./pages/FinanceiroPage";
+import { PontuacaoPage } from "./pages/PontuacaoPage";
 
 export function App() {
   return (
@@ -12,6 +13,7 @@ export function App() {
           <Route path="/" element={<Navigate to="/dashboard/flamengo" replace />} />
           <Route path="/dashboard/:clube" element={<DashboardPage />} />
           <Route path="/financeiro/:clube" element={<FinanceiroPage />} />
+          <Route path="/pontuacao/:clube" element={<PontuacaoPage />} />
           <Route path="*" element={<Navigate to="/dashboard/flamengo" replace />} />
         </Routes>
       </Layout>
