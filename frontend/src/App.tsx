@@ -5,6 +5,8 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { FinanceiroPage } from "./pages/FinanceiroPage";
 import { PontuacaoPage } from "./pages/PontuacaoPage";
 import { TransferenciasPage } from "./pages/TransferenciasPage";
+import { ProjecoesPage } from "./pages/ProjecoesPage";
+import { ComparativoPage } from "./pages/ComparativoPage";
 
 export function App() {
   return (
@@ -16,6 +18,8 @@ export function App() {
           <Route path="/financeiro/:clube" element={<FinanceiroPage />} />
           <Route path="/pontuacao/:clube" element={<PontuacaoPage />} />
           <Route path="/transferencias/:clube" element={<TransferenciasPage />} />
+          <Route path="/projecoes/:clube" element={<ProjecoesPage />} />
+          <Route path="/comparativo" element={<ComparativoPage />} />
           <Route path="*" element={<Navigate to="/dashboard/flamengo" replace />} />
         </Routes>
       </Layout>
