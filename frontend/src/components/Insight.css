@@ -1,0 +1,12 @@
+.insight-texto {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 68ch;
+  margin: 22px 0;
+}
+
+.insight-destaque {
+  color: var(--text-primary);
+  font-weight: 700;
+}

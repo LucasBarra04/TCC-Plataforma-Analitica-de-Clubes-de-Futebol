@@ -1,0 +1,163 @@
+.transferencias-page__resumo {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+  align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .transferencias-page__resumo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transferencias-page__resumo-secundario {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.resumo-card {
+  border-top: var(--divisor);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  flex: 1;
+}
+
+.resumo-card--grande {
+  padding-top: 16px;
+}
+
+.resumo-card--positivo .resumo-card__valor {
+  color: green;
+}
+
+.resumo-card--negativo .resumo-card__valor {
+  color: red;
+}
+
+.resumo-card__rotulo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.resumo-card__valor {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.resumo-card--grande .resumo-card__valor {
+  font-size: 54px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.transferencias-page__grafico {
+  border-top: var(--divisor);
+  padding-top: 16px;
+  margin-bottom: 24px;
+}
+
+.transferencias-page__detalhe {
+  border-top: var(--divisor);
+  padding-top: 16px;
+}
+
+.transferencias-page__detalhe-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.transferencias-page__detalhe-header h3 {
+  font-size: 15px;
+}
+
+.transferencias-page__detalhe-header select {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+}
+
+.transferencias-page__colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 640px) {
+  .transferencias-page__colunas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lista-movimentacao h4 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.lista-movimentacao__vazio {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.lista-movimentacao ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.lista-movimentacao li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 12.5px;
+}
+
+.lista-movimentacao__info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.lista-movimentacao__jogador {
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lista-movimentacao__tipo {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lista-movimentacao__valor {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}

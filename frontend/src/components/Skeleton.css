@@ -1,0 +1,18 @@
+.skeleton-bloco {
+  background: var(--bg-surface-raised);
+  animation: skeleton-pulso 1.4s ease-in-out infinite;
+}
+
+.skeleton-wrap {
+  opacity: 0.7;
+}
+
+@keyframes skeleton-pulso {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
