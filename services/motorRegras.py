@@ -1,10 +1,4 @@
-# Motor de regras: avalia 5 indicadores críticos para gerar os Cards de Diagnóstico:
-
-# 1. Crescimento de receita: CAGR (3 anos) da `receita_bruta`.
-# 2. Endividamento: `passivo_total` / `receita_bruta` (utilizando os dados mais recentes de cada).
-# 3. Custo do futebol: Busca label com "despesa" e "operacional" na DRE. Retorna "indisponivel" se não achar.
-# 4. Concentração de receita: Maior fonte / soma das fontes na DRE (excluindo totais). Retorna "indisponivel" se o detalhamento for insuficiente.
-# 5. Eficiência esportiva: Score de sucesso da temporada recente (via `PONTOS_RESULTADO`) comparado à média histórica do próprio clube.
+# Motor de regras: avalia 5 indicadores críticos para gerar os Cards de Diagnóstico
 
 import unicodedata
 from typing import Optional
@@ -256,7 +250,6 @@ def avaliarEficienciaEsportivaConmebol(clube: str, ano: Optional[int] = None) ->
 # Agregador
 
 def gerarDiagnostico(clube: str, ano: Optional[int] = None) -> list[CardDiagnostico]:
-    # Executa os 6 avaliadores do motor de regras para um clube.
     return [
         avaliarCrescimentoReceita(clube, anoFim=ano),
         avaliarEndividamento(clube, ano=ano),
