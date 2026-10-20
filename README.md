@@ -1,6 +1,6 @@
 # Plataforma Analítica de Clubes de Futebol
 
-TCC Sistemas de Informação, UniAcademia
+TCC - Sistemas de Informação, UniAcademia
 
 **Camadas:** Google Sheets + Apps Script (dados e API) → FastAPI (backend) → React + TypeScript (frontend).
 
@@ -49,7 +49,7 @@ Frontend em http://localhost:5173 e backend em http://localhost:8000 (`/docs`).
 
 A Eficiência Esportiva compara o ano com a média do próprio clube.
 
-**Testes:** Pearson (r) e Spearman (rs) sobre o painel clube-ano (20 observações na CBF e 32 na CONMEBOL). H1 e H2 usam Receita Bruta, Despesa Operacional e Gasto com Contratações. H3 usa Endividamento Geral, Custo do Futebol e Concentração de Receita, e **r < 0 com p < 0,05 favorece H3**.
+**Testes:** Pearson (r) e Spearman (rs) sobre o painel clube-ano (20 observações na CBF e 32 na CONMEBOL). H1 e H2 usam Receita Bruta, Despesa Operacional e Gasto com Contratações. H3 usa Endividamento Geral, Custo do Futebol e Concentração de Receita, e r < 0 com p < 0,05 favorece H3.
 
 ## 3 Critérios de higienização
 
