@@ -480,6 +480,7 @@ function parseFinanceiroSheet(clube) {
     const labelBruto = String(row[0] || "");
     const label = labelBruto.trim();
     if (!label) continue;
+    const nivel = /^\s+/.test(labelBruto) ? 1 : 0;
 
     if (isSectionHeader(label)) {
       if (/RESULTADO|DRE|DEMONSTRA/i.test(label)) secaoAtual = "dre";
